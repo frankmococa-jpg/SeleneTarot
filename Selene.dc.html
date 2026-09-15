@@ -511,7 +511,8 @@
       <div style="font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #F3EAF6; margin-bottom: 6px; line-height: 1.25;">{{ pagamentoItem }}</div>
       <div style="font-family: 'Cormorant Garamond', serif; font-size: 44px; color: #E7C88A; line-height: 1; margin-bottom: 22px; white-space: nowrap;">{{ pagamentoValor }}</div>
       <div style="display: flex; align-items: center; gap: 18px; padding: 18px; border: 1px solid rgba(201,161,95,.22); border-radius: 4px; margin-bottom: 18px;">
-        <div style="width: 132px; height: 132px; flex: none; border: 1px solid rgba(201,161,95,.3); border-radius: 4px; background-color: #EFE6F2; background-image: {{ pixQrImagem }}; background-size: {{ pixQrSize }}; display: flex; align-items: center; justify-content: center;">
+        <div style="width: 132px; height: 132px; flex: none; border: 1px solid rgba(201,161,95,.3); border-radius: 4px; background: #EFE6F2; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+          <img src="{{ pixQrSrc }}" alt="QR Pix" style="display: {{ pixImgDisplay }}; width: 100%; height: 100%; object-fit: cover;">
           <span style="display: {{ pixCarregandoDisplay }}; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: #6E5E86; text-align: center; padding: 8px;">Gerando QR…</span>
         </div>
         <div style="min-width: 0; flex: 1;">
@@ -1023,8 +1024,8 @@ class Component extends DCLogic {
       pagamentoValor: s.pagamentoAlvo === "pacote" ? "R$ 79,90"
         : (area ? this.fmt(area.preco) : ""),
       fecharPagamento: () => this.fecharCheckout(),
-      pixQrImagem: s.pix && s.pix.qrcode ? "url(" + s.pix.qrcode + ")" : "none",
-      pixQrSize: s.pix && s.pix.qrcode ? "cover" : "12px 12px",
+      pixQrSrc: s.pix && s.pix.qrcode ? s.pix.qrcode : "",
+      pixImgDisplay: s.pix && s.pix.qrcode ? "block" : "none",
       pixCarregandoDisplay: !s.pix && !s.pixErro ? "block" : "none",
       pixCopiaECola: s.pix ? s.pix.copiaECola : (s.pixErro ? "Não foi possível gerar o Pix agora. Feche e tente novamente em instantes." : "Gerando código…"),
       pixQuebra: s.pix ? "break-all" : "normal",
