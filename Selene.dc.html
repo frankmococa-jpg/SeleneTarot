@@ -516,7 +516,6 @@
           <span style="display: {{ pixCarregandoDisplay }}; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: #6E5E86; text-align: center; padding: 8px;">Gerando QR…</span>
         </div>
         <div style="min-width: 0; flex: 1;">
-          <div style="font-size: 9.5px; color: #6E5E86; margin-bottom: 4px;">{{ pixDebug }}</div>
           <div style="font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #8C7BA3; margin-bottom: 8px;">Pix copia e cola</div>
           <div style="font-size: 12px; color: #DACFE6; word-break: {{ pixQuebra }}; overflow-wrap: anywhere; line-height: 1.5; max-height: 72px; overflow: hidden;">{{ pixCopiaECola }}</div>
           <div onClick="{{ copiarPix }}" style="cursor: pointer; display: inline-block; margin-top: 10px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(201,161,95,.4); color: #E7C88A; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;">{{ copiarLabel }}</div>
@@ -1030,7 +1029,6 @@ class Component extends DCLogic {
         : (area ? this.fmt(area.preco) : ""),
       fecharPagamento: () => this.fecharCheckout(),
       pixQrSrc: s.pix && s.pix.qrcode ? s.pix.qrcode : "",
-      pixDebug: s.pix ? ("debug: qrcodeLen=" + s.pix.qrcodeLen + " início=" + String(s.pix.qrcode).slice(0, 40)) : "",
       pixImgDisplay: s.pix && s.pix.qrcode ? "block" : "none",
       pixCarregandoDisplay: !s.pix && !s.pixErro ? "block" : "none",
       pixCopiaECola: s.pix ? s.pix.copiaECola : (s.pixErro ? "Não foi possível gerar o Pix agora. Feche e tente novamente em instantes." : "Gerando código…"),
