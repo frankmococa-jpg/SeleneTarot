@@ -10,12 +10,20 @@ module.exports = async (req, res) => {
     const efi = getEfi();
     const host = req.headers["x-forwarded-host"] || req.headers.host;
     const webhookUrl = "https://" + host + "/api/pix/webhook";
-    await efi.pixConfigWebhook(
-      { chave: process.env.EFI_PIX_KEY },
-      { webhookUrl },
-      { "x-skip-mtls-checking": "true" }
-    );
-    const atual = await efi.pixDetailWebhook({ chave: process.env.EFI_PIX_KEY });
+    const headers = { "x-skip-mtls-checking": "true", "User-Agent": "Mozilla/5.0 (Selene/1.0)" };
+    let ultimo;
+    for (let i = 0; i < 3; i++) {
+      try {
+        await efi.pixConfigWebhook({ chave: process.env.EFI_PIX_KEY }, { webhookUrl }, headers);
+        ultimo = null;
+        break;
+      } catch (e) {
+        ultimo = e;
+        await new Promise(r => setTimeout(r, 1500 * (i + 1)));
+      }
+    }
+    if (ultimo) throw ultimo;
+    const atual = await efi.pixDetailWebhook({ chave: process.env.EFI_PIX_KEY }, headers);
     res.status(200).json({ ok: true, cadastrado: atual.webhookUrl, criadoEm: atual.criacao });
   } catch (e) {
     console.error(e);
